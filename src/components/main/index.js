@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Flex from '../../style/Flex';
 import LogoSrc from '../../images/logo.png';
 import H1 from '../../style/H1';
-import SmallText from '../../style/SmallText';
+import Text from '../../style/Text';
 
 const TechWorkWrapper = styled.div`
     width: 100%;
@@ -29,9 +29,11 @@ const Logo = styled.img`
     }
 `;
 
-const BottomText = styled(SmallText)`
+const BottomText = styled(Text)`
     position: absolute;
     bottom: 0;
+    font-size: 12px;
+    line-height: 16px;
 `;
 
 const Main = () => {

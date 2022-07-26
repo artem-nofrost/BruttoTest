@@ -5,6 +5,8 @@ import ReactDOM from 'react-dom';
 import { createGlobalStyle } from 'styled-components';
 import { fade_in, fly } from './style/animations';
 import FontStyles from './fonts/fontStyles';
+import 'antd/dist/antd.css';
+import { colors } from './style/colors';
 
 const Global = createGlobalStyle`
     html {
@@ -21,16 +23,7 @@ const Global = createGlobalStyle`
         padding: 0;
         color: rgb(0, 0, 0);
         box-sizing: border-box;
-    }
-
-    a {
-        color: #3b2a85 !important;
-        text-decoration: none !important;
-        
-    }
-
-    a:hover {
-        text-decoration: underline !important;
+        background-color: ${colors.darkGrey};
     }
 
     input {
@@ -42,8 +35,12 @@ const Global = createGlobalStyle`
         box-shadow: 0 0 0 #80bdff00 !important;
     }
 
-    button:focus {
-        box-shadow: 0 0 0 #80bdff00 !important;
+    a:hover {
+        text-decoration: none !important;
+    }
+
+    .ant-image-mask {
+        display: none!important;
     }
 
 

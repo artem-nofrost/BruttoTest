@@ -2,17 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 import { colors } from './colors';
 
-const SmallTextStyled = styled.p`
+const TextStyled = styled.p`
     text-align: center;
     color: ${colors.white};
     font-style: normal;
     font-weight: 400;
-    font-size: 12px;
-    line-height: 16px;
+    font-size: 16px;
+    line-height: 22px;
 `;
 
-const SmallText = (props) => {
-    return <SmallTextStyled {...props} />;
+const Text = (props) => {
+    return <TextStyled {...props} />;
 };
 
-export default SmallText;
+export default Text;
