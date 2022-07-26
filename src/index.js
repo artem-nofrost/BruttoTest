@@ -43,6 +43,17 @@ const Global = createGlobalStyle`
         display: none!important;
     }
 
+    .ant-form-item-label {
+        label {
+            font-family: 'Rubik', Helvetica, Arial, sans-serif;
+            color: #ffffffcc;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 15px;
+            line-height: 130%;
+        }
+    }
+
 
     .preload {
         display: flex;

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { colors } from './colors';
 
-const H2Styled = styled.h1`
+const H1Styled = styled.h1`
     text-align: center;
     color: ${colors.white};
     font-style: normal;
@@ -17,8 +17,8 @@ const H2Styled = styled.h1`
     }
 `;
 
-const H2 = (props) => {
-    return <H2Styled {...props} />;
+const H1 = (props) => {
+    return <H1Styled {...props} />;
 };
 
-export default H2;
+export default H1;

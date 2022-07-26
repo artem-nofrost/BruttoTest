@@ -93,7 +93,9 @@ const SocialMediaFlex = styled(Flex)`
     gap: 1.5rem;
 `;
 
-const SocialMediaLinks = styled(Image)`
+const SocialMediaLinks = styled.img`
+    height: 34px;
+    width: 34px;
     cursor: pointer;
     &:hover {
         transform: scale(1.2);
@@ -221,17 +223,9 @@ const Login = () => {
                         </LinksFlex>
                     </StyledFormItem>
                     <SocialMediaFlex>
-                        <SocialMediaLinks
-                            width={34}
-                            height={34}
-                            src={GoogleIcon}
-                        />
-                        <SocialMediaLinks
-                            width={34}
-                            height={34}
-                            src={FacebookIcon}
-                        />
-                        <SocialMediaLinks width={34} height={34} src={VkIcon} />
+                        <SocialMediaLinks src={GoogleIcon} />
+                        <SocialMediaLinks src={FacebookIcon} />
+                        <SocialMediaLinks src={VkIcon} />
                     </SocialMediaFlex>
                 </StyledForm>
                 <BottomText>2022 Brutto team</BottomText>
