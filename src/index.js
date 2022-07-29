@@ -54,7 +54,6 @@ const Global = createGlobalStyle`
         }
     }
 
-
     .preload {
         display: flex;
         align-items: center;

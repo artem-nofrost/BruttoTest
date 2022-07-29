@@ -9,14 +9,14 @@ import Text from '../../style/Text';
 
 const AuthWrapper = styled.div`
     width: 100%;
-    height: 100vh;
+    min-height: inherit;
     background-image: url(images/bg-auth.png);
     background-size: cover;
     background-position: center;
 `;
 
 const ContainerFlex = styled(Flex)`
-    height: 100%;
+    min-height: inherit;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -26,7 +26,8 @@ const ContainerFlex = styled(Flex)`
 const Logo = styled.img`
     width: 197px;
     height: auto;
-    margin: 15px;
+    margin-top: auto;
+    padding-top: 3rem;
     @media (min-width: 576px) {
         width: 278px;
     }
@@ -47,8 +48,7 @@ const StyledButtonOutline = styled(ButtonOutline)`
 `;
 
 const BottomText = styled(Text)`
-    position: absolute;
-    bottom: 0;
+    margin-top: auto;
     font-size: 12px;
     line-height: 16px;
 `;

@@ -11,7 +11,7 @@ import { colors } from '../../style/colors';
 import Text from '../../style/Text';
 import { Form, Image } from 'antd';
 import InputDesctop from '../../style/Input';
-import { user } from '../../server/user';
+import { userData } from '../../server/user';
 import { fade_in } from '../../style/animations';
 
 const AuthWrapper = styled.div`
@@ -63,6 +63,7 @@ const Logo = styled.img`
     height: auto;
     margin: 15px;
     margin-top: auto;
+    padding-top: 3rem;
     @media (min-width: 1200px) {
         width: 278px;
     }
@@ -130,6 +131,10 @@ const StyledButton = styled(FilledButton)`
 
 const Login = () => {
     const [loginNotification, setLoginNotification] = useState('');
+    const [user, setUser] = useState({
+        email: '',
+        password: '',
+    });
     const history = useHistory();
 
     useEffect(() => {
@@ -140,7 +145,10 @@ const Login = () => {
     }, [loginNotification]);
 
     const onSubmit = (values) => {
-        if (values.email === user.email && values.password === user.password) {
+        if (
+            values.email === userData.email &&
+            values.password === userData.password
+        ) {
             setLoginNotification('Регистрация прошла успешно!');
             setTimeout(() => {
                 history.push(`/`);
@@ -182,6 +190,13 @@ const Login = () => {
                                 message: 'Введите Email!',
                             },
                         ]}
+                        value={user.email}
+                        onChange={(e) =>
+                            setUser({
+                                ...user,
+                                email: e.target.value.trim(),
+                            })
+                        }
                     >
                         <InputDesctop placeholder="Email" />
                     </StyledFormItem>
@@ -193,6 +208,13 @@ const Login = () => {
                                 message: 'Введите Пароль!',
                             },
                         ]}
+                        value={user.password}
+                        onChange={(e) =>
+                            setUser({
+                                ...user,
+                                password: e.target.value.trim(),
+                            })
+                        }
                     >
                         <InputDesctop type="password" placeholder="Пароль" />
                     </StyledFormItem>
