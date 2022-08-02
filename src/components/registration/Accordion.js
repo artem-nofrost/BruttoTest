@@ -152,14 +152,19 @@ const Accordion = ({ item, onDeleteRepMax, onChangeValue }) => {
                         defaultValue={item.value}
                         min={item.min}
                         max={item.max}
-                        step={0.5}
+                        step={!item.integer ? 0.5 : 1}
                         onChange={(value) => setValue(value)}
                     />
                     <TextUnits>
                         {value}({item.units})
                     </TextUnits>
                 </StyledRepMaxItem>
-                <StyledButtonSave onClick={(e) => onChangeValue(value, item)}>
+                <StyledButtonSave
+                    onClick={(e) => {
+                        onChangeValue(value, item);
+                        setOpen(!isOpen);
+                    }}
+                >
                     Сохранить
                 </StyledButtonSave>
             </RepMaxRowChange>

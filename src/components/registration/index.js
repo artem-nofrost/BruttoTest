@@ -260,7 +260,7 @@ const RepMaxFlex = styled(Flex)`
 
 const Registration = () => {
     const [regNotification, setRegNotification] = useState('');
-    const [part, setPart] = useState(3);
+    const [part, setPart] = useState(1);
     const [user, setUser] = useState({
         email: '',
         password: '',

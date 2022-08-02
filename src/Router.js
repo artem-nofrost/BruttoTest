@@ -4,6 +4,7 @@ import Main from './components/main';
 import Auth from './components/auth';
 import Login from './components/login';
 import Registration from './components/registration';
+import Program from './components/program';
 
 export default function Router() {
     return (
@@ -20,6 +21,9 @@ export default function Router() {
                 </Route>
                 <Route exact path="/registration">
                     <Registration />
+                </Route>
+                <Route exact path="/program">
+                    <Program />
                 </Route>
                 <Route path="*">
                     <Redirect to="/" />

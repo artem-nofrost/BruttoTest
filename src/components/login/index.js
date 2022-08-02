@@ -9,7 +9,7 @@ import FilledButton from '../../style/Button';
 import { useHistory } from 'react-router-dom';
 import { colors } from '../../style/colors';
 import Text from '../../style/Text';
-import { Form, Image } from 'antd';
+import { Form } from 'antd';
 import InputDesctop from '../../style/Input';
 import { userData } from '../../server/user';
 import { fade_in } from '../../style/animations';

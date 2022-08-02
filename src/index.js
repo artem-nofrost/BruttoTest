@@ -20,7 +20,7 @@ const Global = createGlobalStyle`
 
     body {
         margin: 0;
-        padding: 0;
+        padding: auto 2rem;
         color: rgb(0, 0, 0);
         box-sizing: border-box;
         background-color: ${colors.darkGrey};

@@ -111,19 +111,19 @@ const StyledSelect = styled(Select)`
 
 const AddRepMax = ({ onAdd, repMax }) => {
     const [isOpen, setOpen] = useState(false);
-    const [currentRepMax, setPerMax] = useState({
+    const [currentRepMax, setCurrentRepMax] = useState({
         id: 0,
         name: '',
-        engname: '',
         units: '',
         value: '',
         max: 0,
         min: 0,
+        defaultValue: 0,
     });
     const [value, setValue] = useState(0);
 
     useEffect(() => {
-        setPerMax(repMax[0]);
+        setCurrentRepMax(repMax[0]);
     }, []);
 
     useEffect(() => {
@@ -148,7 +148,13 @@ const AddRepMax = ({ onAdd, repMax }) => {
             )}
             <RepMaxParamsRow className={isOpen ? 'active' : ''}>
                 <RepMaxItem xs={24}>
-                    <StyledSelect defaultValue={repMax[0].name}>
+                    <StyledSelect
+                        defaultValue={repMax[0].name}
+                        onChange={(e) => {
+                            setCurrentRepMax(repMax[e - 1]);
+                            setValue(repMax[e - 1].defaultValue);
+                        }}
+                    >
                         {repMax.map((item, id) => (
                             <Option key={item.id} value={item.engname}>
                                 {item.name}
@@ -161,8 +167,15 @@ const AddRepMax = ({ onAdd, repMax }) => {
                         min={currentRepMax.min}
                         max={currentRepMax.max}
                         defaultValue={value}
-                        step={0.5}
-                        onChange={(value) => setValue(value)}
+                        value={value}
+                        step={!currentRepMax.integer ? 0.5 : 1}
+                        onChange={(value) => {
+                            setValue(value);
+                            setCurrentRepMax({
+                                ...currentRepMax,
+                                defaultValue: value,
+                            });
+                        }}
                     />
                     <TextUnits>
                         {value}({currentRepMax.units})
