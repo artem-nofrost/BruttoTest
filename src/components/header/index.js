@@ -47,8 +47,15 @@ const menuItems = [
 ];
 
 const MenuBar = styled.nav`
+    height: 440px;
     width: 100%;
-    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    background-image: url(images/header-background.png);
+    background-size: cover;
+    background-position: center;
 `;
 
 const Logo = styled.img`
@@ -146,11 +153,20 @@ const StyledDrawer = styled(Drawer)`
     }
 `;
 
+const StyledH1 = styled(H1)`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+`;
+
 const HeaderMenu = ({ headerText }) => {
     const [visible, setVisible] = useState(false);
     const history = useHistory();
 
-    const StyledMenu = styled(MainMenu)``;
+    // const StyledMenu = styled(MainMenu)`
+
+    // `;
     return (
         <>
             <MenuBar>
@@ -161,17 +177,14 @@ const HeaderMenu = ({ headerText }) => {
                     <Col xs={{ span: 19, order: 1 }} md={{ order: 2 }}>
                         <StyledFlex>
                             <TopMenuContainer>
-                                <StyledMenu
+                                <MainMenu
                                     items={topMenuItems}
                                     end={+true}
                                     mode="horizontal"
                                 />
                             </TopMenuContainer>
                             <BottomMenuContainer>
-                                <StyledMenu
-                                    items={menuItems}
-                                    mode="horizontal"
-                                />
+                                <MainMenu items={menuItems} mode="horizontal" />
                             </BottomMenuContainer>
                             <BarsMenu
                                 className="barsMenu"
@@ -186,11 +199,8 @@ const HeaderMenu = ({ headerText }) => {
                                 onClose={() => setVisible(false)}
                                 visible={visible}
                             >
-                                <StyledMenu
-                                    items={menuItems}
-                                    mmode="vertical"
-                                />
-                                <StyledMenu
+                                <MainMenu items={menuItems} mmode="vertical" />
+                                <MainMenu
                                     items={topMenuItems}
                                     mode="vertical"
                                 />
@@ -198,7 +208,7 @@ const HeaderMenu = ({ headerText }) => {
                         </StyledFlex>
                     </Col>
                 </Row>
-                <H1>{headerText}</H1>
+                <StyledH1>{headerText}</StyledH1>
             </MenuBar>
         </>
     );

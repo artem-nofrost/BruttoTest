@@ -149,7 +149,7 @@ const Login = () => {
             values.email === userData.email &&
             values.password === userData.password
         ) {
-            setLoginNotification('Регистрация прошла успешно!');
+            setLoginNotification('Авторизация прошла успешно!');
             setTimeout(() => {
                 history.push(`/`);
             }, 2000);

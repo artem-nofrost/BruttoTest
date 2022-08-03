@@ -9,7 +9,7 @@ const StyledMenu = styled(Menu)`
     background: transparent;
     margin: 1rem auto;
     border: 0;
-    color: #ffffff66;
+    color: ${(props) => (props.end ? colors.white : '#ffffff66')};
     font-style: normal;
     font-weight: 500;
     font-size: 18px;
@@ -18,7 +18,8 @@ const StyledMenu = styled(Menu)`
         props.end ? 'flex-end' : 'flex-start'}!important;
     li {
         &:hover {
-            color: ${colors.white}!important;
+            color: ${(props) =>
+                props.end ? '#ffffff66' : colors.white}!important;
         }
         &:after {
             border: 0 !important;
