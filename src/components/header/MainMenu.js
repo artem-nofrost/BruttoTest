@@ -39,6 +39,10 @@ const MainMenu = ({ items, end, mode }) => {
                 items={items}
                 end={end}
                 onClick={(event) => {
+                    if (event.key === 'logout') {
+                        localStorage.removeItem('email');
+                        localStorage.removeItem('password');
+                    }
                     history.push('/' + event.key);
                 }}
                 mode={mode}

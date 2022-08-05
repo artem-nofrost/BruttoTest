@@ -33,6 +33,9 @@ const StyledMainTabs = styled(Tabs)`
     .ant-tabs-nav {
         margin-left: 200px;
         margin-bottom: 3rem;
+        @media (max-width: 991px) {
+            margin-left: 0;
+        }
         &:before {
             border: 0;
         }
@@ -41,6 +44,9 @@ const StyledMainTabs = styled(Tabs)`
             justify-content: center;
             .ant-tabs-nav-list {
                 gap: 3rem;
+                @media (max-width: 991px) {
+                    gap: 0 !important;
+                }
                 .ant-tabs-tab-btn {
                     color: #ffffff66;
                     font-style: normal;
@@ -126,11 +132,19 @@ const DataWrapper = styled.div`
 const StyledImage = styled.div`
     height: 184px;
     width: 296px;
+    @media (max-width: 991.5px) {
+        display: none;
+    }
 `;
 
 const StyledRow = styled(Row)`
     min-width: 650px;
     max-width: 753px;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    @media (max-width: 991px) {
+        min-width: auto;
+    }
 `;
 
 const BottomText = styled(Text)`
@@ -187,14 +201,14 @@ const Program = () => {
                                     >
                                         <DataWrapper>
                                             <StyledRow>
-                                                <Col xs={12}>
+                                                <Col xs={24} lg={12}>
                                                     <StyledImage
                                                         style={{
                                                             background: `url(images/program_day_${i.id}.png)`,
                                                         }}
                                                     />
                                                 </Col>
-                                                <Col xs={12}>
+                                                <Col xs={24} lg={12}>
                                                     <StyledH1>
                                                         {i.name}
                                                     </StyledH1>

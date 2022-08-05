@@ -5,26 +5,54 @@ import Auth from './components/auth';
 import Login from './components/login';
 import Registration from './components/registration';
 import Program from './components/program';
+import PrivateRoute from './route/PrivateRouter';
 
 export default function Router() {
+    const isAuth =
+        localStorage.getItem('email') === 'bruttodmin@mail.ru' &&
+        localStorage.getItem('password') === 'adminbrutto';
     return (
         <>
             <Switch>
                 <Route exact path="/">
                     <Main />
                 </Route>
-                <Route exact path="/auth">
-                    <Auth />
+                <Route path="/auth">
+                    {isAuth ? (
+                        <Redirect
+                            to={{
+                                pathname: '/',
+                            }}
+                        />
+                    ) : (
+                        <Auth />
+                    )}
                 </Route>
-                <Route exact path="/login">
-                    <Login />
+                <Route path="/login">
+                    {isAuth ? (
+                        <Redirect
+                            to={{
+                                pathname: '/',
+                            }}
+                        />
+                    ) : (
+                        <Login />
+                    )}
                 </Route>
-                <Route exact path="/registration">
-                    <Registration />
+                <Route path="/registration">
+                    {isAuth ? (
+                        <Redirect
+                            to={{
+                                pathname: '/',
+                            }}
+                        />
+                    ) : (
+                        <Registration />
+                    )}
                 </Route>
-                <Route exact path="/program">
+                <PrivateRoute exact path="/program">
                     <Program />
-                </Route>
+                </PrivateRoute>
                 <Route path="*">
                     <Redirect to="/" />
                 </Route>

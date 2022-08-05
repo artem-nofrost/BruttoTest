@@ -163,10 +163,6 @@ const StyledH1 = styled(H1)`
 const HeaderMenu = ({ headerText }) => {
     const [visible, setVisible] = useState(false);
     const history = useHistory();
-
-    // const StyledMenu = styled(MainMenu)`
-
-    // `;
     return (
         <>
             <MenuBar>

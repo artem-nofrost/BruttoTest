@@ -149,9 +149,11 @@ const Login = () => {
             values.email === userData.email &&
             values.password === userData.password
         ) {
+            localStorage.email = userData.email;
+            localStorage.password = userData.password;
             setLoginNotification('Авторизация прошла успешно!');
             setTimeout(() => {
-                history.push(`/`);
+                history.push(`/program`);
             }, 2000);
         } else {
             setLoginNotification(

@@ -296,6 +296,8 @@ const Registration = () => {
         if (values.email === userData.email) {
             setRegNotification('Пользователь с таких Email уже существует!');
         } else {
+            localStorage.email = userData.email;
+            localStorage.password = userData.password;
             setTimeout(() => {
                 setPart(2);
             }, 2500);
@@ -708,7 +710,7 @@ const Registration = () => {
                                 <StyledButton
                                     htmlType="submit"
                                     className="reg-form-button"
-                                    onClick={() => history.push('/')}
+                                    onClick={() => history.push('/program')}
                                 >
                                     Завершить
                                 </StyledButton>
