@@ -9,10 +9,10 @@ const H1Styled = styled.h1`
     font-weight: 700;
     font-size: 26px;
     line-height: 120%;
-    @media (min-width: 576px) {
+    @media (min-width: 576.5px) {
         font-size: 40px !important;
     }
-    @media (min-width: 992px) {
+    @media (min-width: 992.5px) {
         font-size: 48px !important;
     }
 `;

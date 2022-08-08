@@ -28,7 +28,7 @@ const Logo = styled.img`
     height: auto;
     margin-top: auto;
     padding-top: 3rem;
-    @media (min-width: 576px) {
+    @media (min-width: 576.5px) {
         width: 278px;
     }
 `;

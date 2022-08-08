@@ -24,6 +24,7 @@ const Global = createGlobalStyle`
         color: rgb(0, 0, 0);
         box-sizing: border-box;
         background-color: ${colors.darkGrey};
+        overflow-x: hidden;
     }
 
     input {

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Row, Col, Drawer, Button } from 'antd';
+import Icon from '@ant-design/icons';
+import UserIcon from '../../images/user-icon.svg';
 import MainMenu from './MainMenu';
 import Flex from '../../style/Flex';
 import LogoSrc from '../../images/logo.png';
@@ -8,43 +10,21 @@ import { useHistory } from 'react-router-dom';
 import { colors } from '../../style/colors';
 import H1 from '../../style/H1';
 
-const topMenuItems = [
-    {
-        key: 'profile',
-        label: 'Профиль',
-    },
-    {
-        key: 'faq',
-        label: 'FAQ',
-    },
-    {
-        key: 'feedback',
-        label: 'Обратная связь',
-    },
-    {
-        key: 'logout',
-        label: 'Выйти',
-    },
-];
+const StyledIcon = styled(Icon)`
+    display: inline-block;
+    @media (max-width: 767.5px) {
+        display: none;
+    }
+`;
 
-const menuItems = [
-    {
-        key: 'program',
-        label: 'Программа',
-    },
-    {
-        key: 'trains',
-        label: 'Тренировки',
-    },
-    {
-        key: 'practice',
-        label: 'Упражнения',
-    },
-    {
-        key: 'liders',
-        label: 'Лидеры',
-    },
-];
+const StyledImgIcon = styled.img`
+    display: inline-block;
+    margin-top: -8px;
+    margin-right: 6px;
+    @media (max-width: 767.5px) {
+        display: none;
+    }
+`;
 
 const MenuBar = styled.nav`
     height: 440px;
@@ -58,6 +38,12 @@ const MenuBar = styled.nav`
     background-position: center;
 `;
 
+const StyledCol = styled(Col)`
+    @media (max-width: 767.5px) {
+        text-align: right;
+    }
+`;
+
 const Logo = styled.img`
     width: 96px;
     height: auto;
@@ -69,7 +55,7 @@ const StyledFlex = styled(Flex)`
     height: 100%;
     flex-direction: column;
     justify-content: flex-start;
-    @media (max-width: 767px) {    
+    @media (max-width: 767.5px) {    
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
@@ -113,7 +99,7 @@ const BarsMenu = styled(Button)`
         outline: auto !important;
         background: transparent;
     }
-    @media (max-width: 767px) {
+    @media (max-width: 767.5px) {
         display: flex;
     }
 `;
@@ -141,13 +127,20 @@ const BarsButton = styled.span`
 `;
 
 const StyledDrawer = styled(Drawer)`
-    ul {
-        display: flex;
-        flex-direction: column;
-        li {
-            color: black;
-            &:hover {
-                color: #363636 !important;
+    .ant-drawer-content-wrapper {
+        @media (max-width: 450.5px) {
+            width: 250px !important;
+        }
+
+        ul {
+            display: flex;
+            flex-direction: column;
+
+            li {
+                color: black;
+                &:hover {
+                    color: #363636 !important;
+                }
             }
         }
     }
@@ -160,6 +153,49 @@ const StyledH1 = styled(H1)`
     flex-grow: 1;
 `;
 
+const topMenuItems = [
+    {
+        key: 'profile',
+        label: 'Профиль',
+        icon: (
+            <StyledIcon
+                component={() => <StyledImgIcon alt="" src={UserIcon} />}
+            />
+        ),
+    },
+    {
+        key: 'faq',
+        label: 'FAQ',
+    },
+    {
+        key: 'feedback',
+        label: 'Обратная связь',
+    },
+    {
+        key: 'logout',
+        label: 'Выйти',
+    },
+];
+
+const menuItems = [
+    {
+        key: 'program',
+        label: 'Программа',
+    },
+    {
+        key: 'trains',
+        label: 'Тренировки',
+    },
+    {
+        key: 'practice',
+        label: 'Упражнения',
+    },
+    {
+        key: 'liders',
+        label: 'Лидеры',
+    },
+];
+
 const HeaderMenu = ({ headerText }) => {
     const [visible, setVisible] = useState(false);
     const history = useHistory();
@@ -167,10 +203,16 @@ const HeaderMenu = ({ headerText }) => {
         <>
             <MenuBar>
                 <Row>
-                    <Col xs={{ span: 5, order: 2 }} md={{ order: 1 }}>
+                    <StyledCol
+                        xs={{ span: 9, order: 2 }}
+                        md={{ span: 5, order: 1 }}
+                    >
                         <Logo src={LogoSrc} onClick={() => history.push('/')} />
-                    </Col>
-                    <Col xs={{ span: 19, order: 1 }} md={{ order: 2 }}>
+                    </StyledCol>
+                    <Col
+                        xs={{ span: 15, order: 1 }}
+                        md={{ span: 19, order: 2 }}
+                    >
                         <StyledFlex>
                             <TopMenuContainer>
                                 <MainMenu

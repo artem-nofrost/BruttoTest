@@ -1,5 +1,5 @@
-import { Col, Row, Tabs } from 'antd';
-import React from 'react';
+import { Col, Row, Tabs, Carousel } from 'antd';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { timeTable } from '../../server/timeTable';
 import { colors } from '../../style/colors';
@@ -13,7 +13,7 @@ const { TabPane } = Tabs;
 const AuthWrapper = styled.div`
     width: 100%;
     min-height: inherit;
-    @media (max-width: 576px) {
+    @media (max-width: 576.5px) {
         background: ${colors.darkGrey};
     }
 `;
@@ -30,10 +30,13 @@ const StyledMainTabs = styled(Tabs)`
     width: 100%;
     padding-left: 3rem;
     padding-right: 3rem;
+    @media (max-width: 576.5px) {
+        display: none;
+    }
     .ant-tabs-nav {
         margin-left: 200px;
         margin-bottom: 3rem;
-        @media (max-width: 991px) {
+        @media (max-width: 991.5px) {
             margin-left: 0;
         }
         &:before {
@@ -44,7 +47,7 @@ const StyledMainTabs = styled(Tabs)`
             justify-content: center;
             .ant-tabs-nav-list {
                 gap: 3rem;
-                @media (max-width: 991px) {
+                @media (max-width: 991.5px) {
                     gap: 0 !important;
                 }
                 .ant-tabs-tab-btn {
@@ -142,7 +145,7 @@ const StyledRow = styled(Row)`
     max-width: 753px;
     padding-left: 3rem;
     padding-right: 3rem;
-    @media (max-width: 991px) {
+    @media (max-width: 991.5px) {
         min-width: auto;
     }
 `;
@@ -172,7 +175,101 @@ const TextDesc = styled(Text)`
     line-height: 140%;
 `;
 
+// mobile
+const StyledTabsMobile = styled.div`
+    display: none;
+    width: 100%;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    @media (max-width: 576.5px) {
+        display: block;
+    }
+`;
+
+const StyledCarouselMainMobile = styled(Carousel)`
+    .slick-slide {
+        height: 48px;
+        text-align: center;
+        overflow: hidden;
+        user-select: none;
+        cursor: pointer;
+        .carousel-main-item {
+            color: #ffffff66;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 20px;
+            line-height: 120%;
+        }
+    }
+    .slick-current {
+        .carousel-main-item {
+            color: ${colors.white};
+            font-style: normal;
+            font-weight: 500;
+            font-size: 20px;
+            line-height: 120%;
+            padding-bottom: 1rem;
+            border-bottom: 4px solid white;
+        }
+    }
+`;
+
+const StyledCarouselMobile = styled(Carousel)`
+    margin-top: 2rem;
+    .slick-list {
+        margin: 0 -10px;
+        .slick-slide {
+            height: 128px;
+            text-align: center;
+            overflow: hidden;
+            user-select: none;
+            cursor: pointer;
+            > div {
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: red;
+                margin: 0 10px;
+                border-radius: 8px;
+            }
+            .wrapper-carousel-main-item {
+                .carousel-main-item {
+                    color: #ffffff66;
+                    font-style: normal;
+                    font-weight: 500;
+                    font-size: 20px;
+                    line-height: 120%;
+                }
+            }
+        }
+        .slick-current {
+            .carousel-main-item {
+                color: ${colors.white}!important;
+            }
+        }
+    }
+`;
+
+const DataWrapperMobile = styled.div`
+    margin-top: 2rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    background: ${colors.grey};
+    border-radius: 8px;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+`;
+
 const Program = () => {
+    const [weekNumber, setWeekNumber] = useState(0);
+    const [dayNumber, setDayNumber] = useState(0);
+    const slider = useRef();
+
     return (
         <AuthWrapper>
             <ContainerFlex>
@@ -244,6 +341,108 @@ const Program = () => {
                         </StyledTabPaneLeft>
                     ))}
                 </StyledMainTabs>
+                <StyledTabsMobile>
+                    <StyledCarouselMainMobile
+                        slidesToShow={3}
+                        dots={false}
+                        draggable={true}
+                        swipeToSlide={true}
+                        touchThreshold={50}
+                        focusOnSelect={true}
+                        responsive={[
+                            {
+                                breakpoint: 400,
+                                settings: {
+                                    slidesToShow: 1,
+                                },
+                            },
+                        ]}
+                        beforeChange={(current, next) => {
+                            if (current !== next) {
+                                setWeekNumber(next);
+                                setDayNumber(0);
+                                slider.current.goTo(0);
+                            }
+                        }}
+                    >
+                        {timeTable.map((item, index) => (
+                            <div key={item.id}>
+                                <div className="carousel-main-item">
+                                    {item.week}
+                                </div>
+                            </div>
+                        ))}
+                    </StyledCarouselMainMobile>
+                    <StyledCarouselMobile
+                        ref={(ref) => {
+                            slider.current = ref;
+                        }}
+                        slidesToShow={3}
+                        dots={false}
+                        draggable={true}
+                        swipeToSlide={true}
+                        touchThreshold={50}
+                        focusOnSelect={true}
+                        responsive={[
+                            {
+                                breakpoint: 500,
+                                settings: {
+                                    slidesToShow: 1,
+                                },
+                            },
+                        ]}
+                        beforeChange={(current, next) => {
+                            if (current !== next) {
+                                setDayNumber(next);
+                            }
+                        }}
+                    >
+                        {timeTable[weekNumber].days.map((i, index) => (
+                            <div
+                                key={i.id}
+                                className="wrapper-carousel-main-item"
+                            >
+                                <div className="carousel-main-item">
+                                    {i.name}
+                                </div>
+                            </div>
+                        ))}
+                    </StyledCarouselMobile>
+                    <DataWrapperMobile>
+                        <Row>
+                            <Col xs={24}>
+                                <StyledH1>
+                                    {timeTable[weekNumber].days[dayNumber].name}
+                                </StyledH1>
+                                <TextDesc>
+                                    {timeTable[weekNumber].days[dayNumber].desc}
+                                </TextDesc>
+                                <TextTitle>МФР:</TextTitle>
+                                <TextDesc>
+                                    {timeTable[weekNumber].days[dayNumber].mfr}
+                                </TextDesc>
+                                <TextTitle>Спец разминка:</TextTitle>
+                                <TextDesc>
+                                    {
+                                        timeTable[weekNumber].days[dayNumber]
+                                            .specWarmUp
+                                    }
+                                </TextDesc>
+                                <TextTitle>Техническая часть:</TextTitle>
+                                <TextDesc>
+                                    {timeTable[weekNumber].days[dayNumber].tech}
+                                </TextDesc>
+                                <TextTitle>Кондиционная часть:</TextTitle>
+                                <TextDesc>
+                                    {
+                                        timeTable[weekNumber].days[dayNumber]
+                                            .condPart
+                                    }
+                                </TextDesc>
+                            </Col>
+                        </Row>
+                    </DataWrapperMobile>
+                </StyledTabsMobile>
                 <BottomText>2022 Brutto team</BottomText>
             </ContainerFlex>
         </AuthWrapper>

@@ -20,7 +20,7 @@ const AuthWrapper = styled.div`
     background-image: url(images/bg-auth.png);
     background-size: cover;
     background-position: center;
-    @media (max-width: 576px) {
+    @media (max-width: 576.5px) {
         background: ${colors.darkGrey};
     }
 `;
@@ -64,7 +64,7 @@ const Logo = styled.img`
     margin: 15px;
     margin-top: auto;
     padding-top: 3rem;
-    @media (min-width: 1200px) {
+    @media (min-width: 1200.5px) {
         width: 278px;
     }
 `;

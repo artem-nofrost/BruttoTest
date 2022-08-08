@@ -24,8 +24,11 @@ const StyledMenu = styled(Menu)`
         &:after {
             border: 0 !important;
         }
+        .ant-menu-title-content {
+            margin-left: 0;
+        }
     }
-    @media (max-width: 767px) {
+    @media (max-width: 767.5px) {
         display: none;
     }
 `;
