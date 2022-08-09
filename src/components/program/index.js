@@ -1,4 +1,4 @@
-import { Col, Row, Tabs, Carousel } from 'antd';
+import { Col, Row, Tabs, Carousel, Collapse } from 'antd';
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { timeTable } from '../../server/timeTable';
@@ -9,6 +9,7 @@ import Text from '../../style/Text';
 import HeaderMenu from '../header';
 
 const { TabPane } = Tabs;
+const { Panel } = Collapse;
 
 const AuthWrapper = styled.div`
     width: 100%;
@@ -179,8 +180,8 @@ const TextDesc = styled(Text)`
 const StyledTabsMobile = styled.div`
     display: none;
     width: 100%;
-    padding-left: 3rem;
-    padding-right: 3rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
     @media (max-width: 576.5px) {
         display: block;
     }
@@ -211,6 +212,93 @@ const StyledCarouselMainMobile = styled(Carousel)`
             padding-bottom: 1rem;
             border-bottom: 4px solid white;
         }
+    }
+`;
+
+const CollapseDaysMobile = styled(Collapse)`
+    width: calc(100% + 3rem);
+    background: transparent;
+    margin-top: 2rem;
+    margin-left: -1.5rem;
+    border: 0;
+    border-radius: 8px;
+    .ant-collapse-item {
+        background: ${colors.grey};
+        margin-bottom: 1rem;
+        border-bottom: 1px solid #d9d9d9;
+        border: 0;
+    }
+    .ant-collapse-item-disabled {
+        .ant-item-image {
+            filter: brightness(0.4);
+        }
+        p {
+            color: #ffffff4d;
+        }
+    }
+    .ant-panel-today {
+        background: ${colors.white};
+        .ant-item-image {
+            &:after {
+                content: 'Сегодня';
+                position: absolute;
+                height: 32px;
+                width: 109px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #121212cc;
+                color: ${colors.white};
+                border-top-left-radius: 8px;
+                border-top-right-radius: 8px;
+                font-weight: 700;
+                font-size: 17px;
+                line-height: 130%;
+            }
+        }
+        p {
+            color: ${colors.darkGrey};
+        }
+    }
+    .ant-collapse-extra {
+        width: 100%;
+        margin-left: 0 !important;
+    }
+`;
+
+const StyledRowMobile = styled(Row)`
+    @media (max-width: 320.5px) {
+        flex-direction: column;
+        align-items: center;
+    }
+`;
+
+const StyledImageMobile = styled.div`
+    width: 109px;
+    height: 106px;
+    border-radius: 8px;
+`;
+
+const TextWeekMobile = styled(Text)`
+    margin-bottom: 8px;
+    text-align: start;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 130%;
+    @media (max-width: 320.5px) {
+        margin-top: 2rem;
+        text-align: center;
+    }
+`;
+
+const TextDescMobile = styled(Text)`
+    color: #ffffffcc;
+    text-align: start;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 20px;
+    @media (max-width: 320.5px) {
+        text-align: center;
     }
 `;
 
@@ -268,7 +356,7 @@ const DataWrapperMobile = styled.div`
 const Program = () => {
     const [weekNumber, setWeekNumber] = useState(0);
     const [dayNumber, setDayNumber] = useState(0);
-    const slider = useRef();
+    const [dayNumberActive, setDayNumberActive] = useState(null);
 
     return (
         <AuthWrapper>
@@ -353,7 +441,7 @@ const Program = () => {
                             {
                                 breakpoint: 400,
                                 settings: {
-                                    slidesToShow: 1,
+                                    slidesToShow: 2,
                                 },
                             },
                         ]}
@@ -361,7 +449,7 @@ const Program = () => {
                             if (current !== next) {
                                 setWeekNumber(next);
                                 setDayNumber(0);
-                                slider.current.goTo(0);
+                                setDayNumberActive(null);
                             }
                         }}
                     >
@@ -373,75 +461,48 @@ const Program = () => {
                             </div>
                         ))}
                     </StyledCarouselMainMobile>
-                    <StyledCarouselMobile
-                        ref={(ref) => {
-                            slider.current = ref;
-                        }}
-                        slidesToShow={3}
-                        dots={false}
-                        draggable={true}
-                        swipeToSlide={true}
-                        touchThreshold={50}
-                        focusOnSelect={true}
-                        responsive={[
-                            {
-                                breakpoint: 500,
-                                settings: {
-                                    slidesToShow: 1,
-                                },
-                            },
-                        ]}
-                        beforeChange={(current, next) => {
-                            if (current !== next) {
-                                setDayNumber(next);
-                            }
-                        }}
+                    <CollapseDaysMobile
+                        accordion
+                        activeKey={[dayNumberActive]}
+                        onChange={(key) => setDayNumberActive(key.toString())}
                     >
                         {timeTable[weekNumber].days.map((i, index) => (
-                            <div
-                                key={i.id}
-                                className="wrapper-carousel-main-item"
+                            <Panel
+                                key={i.id.toString()}
+                                showArrow={false}
+                                collapsible={i.finished && 'disabled'}
+                                className={i.isToday && 'ant-panel-today'}
+                                extra={
+                                    <StyledRowMobile>
+                                        <Col xs={10}>
+                                            <StyledImageMobile
+                                                className="ant-item-image"
+                                                style={{
+                                                    background: `url(images/program_day_${i.id}.png)`,
+                                                }}
+                                            />
+                                        </Col>
+                                        <Col xs={14}>
+                                            <Row>
+                                                <Col xs={24}>
+                                                    <TextWeekMobile>
+                                                        {i.name}
+                                                    </TextWeekMobile>
+                                                </Col>
+                                                <Col xs={24}>
+                                                    <TextDescMobile>
+                                                        {i.desc}
+                                                    </TextDescMobile>
+                                                </Col>
+                                            </Row>
+                                        </Col>
+                                    </StyledRowMobile>
+                                }
                             >
-                                <div className="carousel-main-item">
-                                    {i.name}
-                                </div>
-                            </div>
+                                Контент
+                            </Panel>
                         ))}
-                    </StyledCarouselMobile>
-                    <DataWrapperMobile>
-                        <Row>
-                            <Col xs={24}>
-                                <StyledH1>
-                                    {timeTable[weekNumber].days[dayNumber].name}
-                                </StyledH1>
-                                <TextDesc>
-                                    {timeTable[weekNumber].days[dayNumber].desc}
-                                </TextDesc>
-                                <TextTitle>МФР:</TextTitle>
-                                <TextDesc>
-                                    {timeTable[weekNumber].days[dayNumber].mfr}
-                                </TextDesc>
-                                <TextTitle>Спец разминка:</TextTitle>
-                                <TextDesc>
-                                    {
-                                        timeTable[weekNumber].days[dayNumber]
-                                            .specWarmUp
-                                    }
-                                </TextDesc>
-                                <TextTitle>Техническая часть:</TextTitle>
-                                <TextDesc>
-                                    {timeTable[weekNumber].days[dayNumber].tech}
-                                </TextDesc>
-                                <TextTitle>Кондиционная часть:</TextTitle>
-                                <TextDesc>
-                                    {
-                                        timeTable[weekNumber].days[dayNumber]
-                                            .condPart
-                                    }
-                                </TextDesc>
-                            </Col>
-                        </Row>
-                    </DataWrapperMobile>
+                    </CollapseDaysMobile>
                 </StyledTabsMobile>
                 <BottomText>2022 Brutto team</BottomText>
             </ContainerFlex>
