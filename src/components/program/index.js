@@ -1,7 +1,8 @@
 import { Col, Row, Tabs, Carousel, Collapse } from 'antd';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { timeTable } from '../../server/timeTable';
+import FilledButton from '../../style/Button';
 import { colors } from '../../style/colors';
 import Flex from '../../style/Flex';
 import H1 from '../../style/H1';
@@ -215,7 +216,7 @@ const StyledCarouselMainMobile = styled(Carousel)`
     }
 `;
 
-const CollapseDaysMobile = styled(Collapse)`
+const CollapseMobile = styled(Collapse)`
     width: calc(100% + 3rem);
     background: transparent;
     margin-top: 2rem;
@@ -227,6 +228,15 @@ const CollapseDaysMobile = styled(Collapse)`
         margin-bottom: 1rem;
         border-bottom: 1px solid #d9d9d9;
         border: 0;
+        .ant-collapse-content {
+            background: ${colors.darkGrey};
+            border-bottom: 1px solid #d9d9d9;
+            .ant-collapse {
+                margin-left: -20px !important;
+                margin-top: 0;
+                // border-bottom: 1px solid #d9d9d9;
+            }
+        }
     }
     .ant-collapse-item-disabled {
         .ant-item-image {
@@ -237,27 +247,29 @@ const CollapseDaysMobile = styled(Collapse)`
         }
     }
     .ant-panel-today {
-        background: ${colors.white};
-        .ant-item-image {
-            &:after {
-                content: 'Сегодня';
-                position: absolute;
-                height: 32px;
-                width: 109px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                background-color: #121212cc;
-                color: ${colors.white};
-                border-top-left-radius: 8px;
-                border-top-right-radius: 8px;
-                font-weight: 700;
-                font-size: 17px;
-                line-height: 130%;
+        .ant-collapse-header {
+            background: ${colors.white};
+            .ant-item-image {
+                &:after {
+                    content: 'Сегодня';
+                    position: absolute;
+                    height: 32px;
+                    width: 109px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: #121212cc;
+                    color: ${colors.white};
+                    border-top-left-radius: 8px;
+                    border-top-right-radius: 8px;
+                    font-weight: 700;
+                    font-size: 17px;
+                    line-height: 130%;
+                }
             }
-        }
-        p {
-            color: ${colors.darkGrey};
+            p {
+                color: ${colors.darkGrey};
+            }
         }
     }
     .ant-collapse-extra {
@@ -302,60 +314,115 @@ const TextDescMobile = styled(Text)`
     }
 `;
 
-const StyledCarouselMobile = styled(Carousel)`
-    margin-top: 2rem;
-    .slick-list {
-        margin: 0 -10px;
-        .slick-slide {
-            height: 128px;
-            text-align: center;
-            overflow: hidden;
-            user-select: none;
-            cursor: pointer;
-            > div {
-                height: 100%;
+const CollapseExMobile = styled(CollapseMobile)`
+    border: 0;
+    background: ${colors.darkGrey};
+    .ant-collapse-header {
+        background: ${colors.grey}!important;
+        padding: 2rem !important;
+        cursor: pointer !important;
+        p {
+            color: #ffffffcc !important;
+        }
+    }
+    .ant-item-ex-image {
+        filter: none;
+    }
+    .disabled-ex {
+        .ant-collapse-header {
+            .ant-item-image {
+                filter: brightness(0.4) !important;
+            }
+            p {
+                color: #ffffff4d !important;
+            }
+        }
+    }
+    .ant-current {
+        background: ${colors.white};
+        .ant-item-ex-image {
+            &:after {
+                content: 'Текущий';
+                position: absolute;
+                height: 32px;
+                width: 109px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                background: red;
-                margin: 0 10px;
-                border-radius: 8px;
-            }
-            .wrapper-carousel-main-item {
-                .carousel-main-item {
-                    color: #ffffff66;
-                    font-style: normal;
-                    font-weight: 500;
-                    font-size: 20px;
-                    line-height: 120%;
-                }
+                background-color: #121212cc;
+                color: ${colors.white};
+                border-top-left-radius: 8px;
+                border-top-right-radius: 8px;
+                font-weight: 700;
+                font-size: 17px;
+                line-height: 130%;
             }
         }
-        .slick-current {
-            .carousel-main-item {
-                color: ${colors.white}!important;
-            }
+        p {
+            color: ${colors.darkGrey}!important;
         }
     }
 `;
 
-const DataWrapperMobile = styled.div`
-    margin-top: 2rem;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: row;
-    background: ${colors.grey};
-    border-radius: 8px;
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
+const StyledFilledButton = styled(FilledButton)`
+    padding: 2rem 1rem;
+    max-width: 100%;
+    margin: 1.5rem auto 0 auto !important;
 `;
+
+// const StyledCarouselMobile = styled(Carousel)`
+//     margin-top: 2rem;
+//     .slick-list {
+//         margin: 0 -10px;
+//         .slick-slide {
+//             height: 128px;
+//             text-align: center;
+//             overflow: hidden;
+//             user-select: none;
+//             cursor: pointer;
+//             > div {
+//                 height: 100%;
+//                 display: flex;
+//                 justify-content: center;
+//                 align-items: center;
+//                 background: red;
+//                 margin: 0 10px;
+//                 border-radius: 8px;
+//             }
+//             .wrapper-carousel-main-item {
+//                 .carousel-main-item {
+//                     color: #ffffff66;
+//                     font-style: normal;
+//                     font-weight: 500;
+//                     font-size: 20px;
+//                     line-height: 120%;
+//                 }
+//             }
+//         }
+//         .slick-current {
+//             .carousel-main-item {
+//                 color: ${colors.white}!important;
+//             }
+//         }
+//     }
+// `;
+
+// const DataWrapperMobile = styled.div`
+//     margin-top: 2rem;
+//     display: flex;
+//     justify-content: flex-start;
+//     align-items: center;
+//     flex-direction: row;
+//     background: ${colors.grey};
+//     border-radius: 8px;
+//     padding-top: 3rem;
+//     padding-bottom: 3rem;
+//     padding-left: 2rem;
+//     padding-right: 2rem;
+// `;
 
 const Program = () => {
     const [weekNumber, setWeekNumber] = useState(0);
-    const [dayNumber, setDayNumber] = useState(0);
     const [dayNumberActive, setDayNumberActive] = useState(null);
 
     return (
@@ -448,7 +515,6 @@ const Program = () => {
                         beforeChange={(current, next) => {
                             if (current !== next) {
                                 setWeekNumber(next);
-                                setDayNumber(0);
                                 setDayNumberActive(null);
                             }
                         }}
@@ -461,10 +527,14 @@ const Program = () => {
                             </div>
                         ))}
                     </StyledCarouselMainMobile>
-                    <CollapseDaysMobile
+                    <CollapseMobile
                         accordion
                         activeKey={[dayNumberActive]}
-                        onChange={(key) => setDayNumberActive(key.toString())}
+                        onChange={(key) => {
+                            key !== undefined
+                                ? setDayNumberActive(key.toString())
+                                : setDayNumberActive(null);
+                        }}
                     >
                         {timeTable[weekNumber].days.map((i, index) => (
                             <Panel
@@ -499,10 +569,63 @@ const Program = () => {
                                     </StyledRowMobile>
                                 }
                             >
-                                Контент
+                                <CollapseExMobile
+                                    accordion
+                                    collapsible="disabled"
+                                >
+                                    {i.blocks.map((j, index) => (
+                                        <Panel
+                                            key={j.id.toString()}
+                                            className={
+                                                (j.finished && 'disabled-ex') ||
+                                                (j.current && 'ant-current')
+                                            }
+                                            extra={
+                                                <StyledRowMobile>
+                                                    <Col xs={10}>
+                                                        <StyledImageMobile
+                                                            className="ant-item-ex-image"
+                                                            style={{
+                                                                background: `url(images/program_day_${j.id}.png)`,
+                                                            }}
+                                                        />
+                                                    </Col>
+                                                    <Col xs={14}>
+                                                        <Row>
+                                                            <Col xs={24}>
+                                                                <TextWeekMobile>
+                                                                    {j.name}
+                                                                </TextWeekMobile>
+                                                            </Col>
+                                                            <Col xs={24}>
+                                                                <TextDescMobile>
+                                                                    {j.exercises.map(
+                                                                        (
+                                                                            k,
+                                                                            index,
+                                                                        ) =>
+                                                                            (index
+                                                                                ? ', '
+                                                                                : '') +
+                                                                            k.name,
+                                                                    )}
+                                                                </TextDescMobile>
+                                                            </Col>
+                                                        </Row>
+                                                    </Col>
+                                                </StyledRowMobile>
+                                            }
+                                        ></Panel>
+                                    ))}
+                                </CollapseExMobile>
+                                {i.isToday && (
+                                    <StyledFilledButton>
+                                        Завершить тренировку
+                                    </StyledFilledButton>
+                                )}
                             </Panel>
                         ))}
-                    </CollapseDaysMobile>
+                    </CollapseMobile>
                 </StyledTabsMobile>
                 <BottomText>2022 Brutto team</BottomText>
             </ContainerFlex>
@@ -511,3 +634,74 @@ const Program = () => {
 };
 
 export default Program;
+
+// {
+/* <StyledCarouselMobile
+                        ref={(ref) => {
+                            slider.current = ref;
+                        }}
+                        slidesToShow={3}
+                        dots={false}
+                        draggable={true}
+                        swipeToSlide={true}
+                        touchThreshold={50}
+                        focusOnSelect={true}
+                        responsive={[
+                            {
+                                breakpoint: 500,
+                                settings: {
+                                    slidesToShow: 1,
+                                },
+                            },
+                        ]}
+                        beforeChange={(current, next) => {
+                            if (current !== next) {
+                                setDayNumber(next);
+                            }
+                        }}
+                    >
+                        {timeTable[weekNumber].days.map((i, index) => (
+                            <div
+                                key={i.id}
+                                className="wrapper-carousel-main-item"
+                            >
+                                <div className="carousel-main-item">
+                                    {i.name}
+                                </div>
+                            </div>
+                        ))}
+                    </StyledCarouselMobile> */
+// }
+
+// <Row>
+//                             <Col xs={24}>
+//                                 <StyledH1>
+//                                     {timeTable[weekNumber].days[dayNumber].name}
+//                                 </StyledH1>
+//                                 <TextDesc>
+//                                     {timeTable[weekNumber].days[dayNumber].desc}
+//                                 </TextDesc>
+//                                 <TextTitle>МФР:</TextTitle>
+//                                 <TextDesc>
+//                                     {timeTable[weekNumber].days[dayNumber].mfr}
+//                                 </TextDesc>
+//                                 <TextTitle>Спец разминка:</TextTitle>
+//                                 <TextDesc>
+//                                     {
+//                                         timeTable[weekNumber].days[dayNumber]
+//                                             .specWarmUp
+//                                     }
+//                                 </TextDesc>
+//                                 <TextTitle>Техническая часть:</TextTitle>
+//                                 <TextDesc>
+//                                     {timeTable[weekNumber].days[dayNumber].tech}
+//                                 </TextDesc>
+//                                 <TextTitle>Кондиционная часть:</TextTitle>
+//                                 <TextDesc>
+//                                     {
+//                                         timeTable[weekNumber].days[dayNumber]
+//                                             .condPart
+//                                     }
+//                                 </TextDesc>
+//                             </Col>
+//                         </Row>
