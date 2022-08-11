@@ -5,6 +5,7 @@ import Auth from './components/auth';
 import Login from './components/login';
 import Registration from './components/registration';
 import Program from './components/program';
+import CurrentExBlock from './components/currentExBlock';
 import PrivateRoute from './route/PrivateRouter';
 
 export default function Router() {
@@ -52,6 +53,9 @@ export default function Router() {
                 </Route>
                 <PrivateRoute exact path="/program">
                     <Program />
+                </PrivateRoute>
+                <PrivateRoute path="/program/:week/:day/:block">
+                    <CurrentExBlock />
                 </PrivateRoute>
                 <Route path="*">
                     <Redirect to="/" />

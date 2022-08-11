@@ -1,5 +1,6 @@
 import { Col, Row, Tabs, Carousel, Collapse } from 'antd';
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { timeTable } from '../../server/timeTable';
 import FilledButton from '../../style/Button';
@@ -224,18 +225,44 @@ const CollapseMobile = styled(Collapse)`
     border: 0;
     border-radius: 8px;
     .ant-collapse-item {
+        position: relative;
         background: ${colors.grey};
         margin-bottom: 1rem;
-        border-bottom: 1px solid #d9d9d9;
         border: 0;
+        &:after {
+            content: '';
+            height: 0%;
+            transition: all 1s ease;
+        }
         .ant-collapse-content {
-            background: ${colors.darkGrey};
-            border-bottom: 1px solid #d9d9d9;
+            background: transparent;
+            margin: 0 4rem;
+            border: 0;
             .ant-collapse {
                 margin-left: -20px !important;
                 margin-top: 0;
-                // border-bottom: 1px solid #d9d9d9;
             }
+        }
+        .ant-collapse-expand-icon {
+            order: 1;
+            align-self: center;
+            span {
+                color: #ffffffcc;
+                margin-right: 0 !important;
+                font-size: 20px !important;
+            }
+        }
+    }
+    .ant-collapse-item-active {
+        &:after {
+            content: '';
+            height: 100%;
+            width: 3px;
+            position: absolute;
+            left: 0;
+            top: 0;
+
+            background-color: ${colors.white};
         }
     }
     .ant-collapse-item-disabled {
@@ -244,6 +271,11 @@ const CollapseMobile = styled(Collapse)`
         }
         p {
             color: #ffffff4d;
+        }
+        .ant-collapse-expand-icon {
+            span {
+                color: transparent;
+            }
         }
     }
     .ant-panel-today {
@@ -269,6 +301,14 @@ const CollapseMobile = styled(Collapse)`
             }
             p {
                 color: ${colors.darkGrey};
+            }
+            .ant-collapse-expand-icon {
+                order: 1;
+                align-self: center;
+                span {
+                    color: #000000d9;
+                    font-size: 20px;
+                }
             }
         }
     }
@@ -319,8 +359,11 @@ const CollapseExMobile = styled(CollapseMobile)`
     background: ${colors.darkGrey};
     .ant-collapse-header {
         background: ${colors.grey}!important;
-        padding: 2rem !important;
+        padding: 0 !important;
         cursor: pointer !important;
+        .ant-collapse-expand-icon {
+            display: none;
+        }
         p {
             color: #ffffffcc !important;
         }
@@ -362,6 +405,10 @@ const CollapseExMobile = styled(CollapseMobile)`
             color: ${colors.darkGrey}!important;
         }
     }
+`;
+
+const StyledRowExMobile = styled(StyledRowMobile)`
+    padding: 2rem;
 `;
 
 const StyledFilledButton = styled(FilledButton)`
@@ -424,6 +471,7 @@ const StyledFilledButton = styled(FilledButton)`
 const Program = () => {
     const [weekNumber, setWeekNumber] = useState(0);
     const [dayNumberActive, setDayNumberActive] = useState(null);
+    const history = useHistory();
 
     return (
         <AuthWrapper>
@@ -539,7 +587,7 @@ const Program = () => {
                         {timeTable[weekNumber].days.map((i, index) => (
                             <Panel
                                 key={i.id.toString()}
-                                showArrow={false}
+                                showArrow={true}
                                 collapsible={i.finished && 'disabled'}
                                 className={i.isToday && 'ant-panel-today'}
                                 extra={
@@ -581,7 +629,19 @@ const Program = () => {
                                                 (j.current && 'ant-current')
                                             }
                                             extra={
-                                                <StyledRowMobile>
+                                                <StyledRowExMobile
+                                                    onClick={() => {
+                                                        history.push({
+                                                            pathname:
+                                                                '/program/' +
+                                                                weekNumber +
+                                                                '/' +
+                                                                i.id +
+                                                                '/' +
+                                                                j.id,
+                                                        });
+                                                    }}
+                                                >
                                                     <Col xs={10}>
                                                         <StyledImageMobile
                                                             className="ant-item-ex-image"
@@ -613,7 +673,7 @@ const Program = () => {
                                                             </Col>
                                                         </Row>
                                                     </Col>
-                                                </StyledRowMobile>
+                                                </StyledRowExMobile>
                                             }
                                         ></Panel>
                                     ))}
