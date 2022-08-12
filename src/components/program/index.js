@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Col, Row, Tabs, Carousel, Collapse } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { timeTable } from '../../server/timeTable';
@@ -9,6 +10,7 @@ import Flex from '../../style/Flex';
 import H1 from '../../style/H1';
 import Text from '../../style/Text';
 import HeaderMenu from '../header';
+import CurrentExBlock from './CurrentExBlock';
 
 const { TabPane } = Tabs;
 const { Panel } = Collapse;
@@ -19,6 +21,11 @@ const AuthWrapper = styled.div`
     @media (max-width: 576.5px) {
         background: ${colors.darkGrey};
     }
+`;
+
+const MainContainer = styled.div`
+    width: 100%;
+    max-width: 1100px;
 `;
 
 const ContainerFlex = styled(Flex)`
@@ -94,10 +101,10 @@ const StyledTabPaneLeft = styled(TabPane)`
                         height: 100%;
                         width: 100%;
                         top: 0;
-                        border-radius: 8px;
                         display: flex;
                         justify-content: center;
                         align-items: center;
+                        border-radius: 8px;
                         text-shadow: 1px 2px 5px black;
                         filter: brightness(0.6);
                     }
@@ -138,6 +145,7 @@ const DataWrapper = styled.div`
 const StyledImage = styled.div`
     height: 184px;
     width: 296px;
+    border-radius: 8px;
     @media (max-width: 991.5px) {
         display: none;
     }
@@ -319,7 +327,7 @@ const CollapseMobile = styled(Collapse)`
 `;
 
 const StyledRowMobile = styled(Row)`
-    @media (max-width: 320.5px) {
+    @media (max-width: 350.5px) {
         flex-direction: column;
         align-items: center;
     }
@@ -337,7 +345,7 @@ const TextWeekMobile = styled(Text)`
     font-weight: 400;
     font-size: 17px;
     line-height: 130%;
-    @media (max-width: 320.5px) {
+    @media (max-width: 350.5px) {
         margin-top: 2rem;
         text-align: center;
     }
@@ -409,6 +417,26 @@ const CollapseExMobile = styled(CollapseMobile)`
 
 const StyledRowExMobile = styled(StyledRowMobile)`
     padding: 2rem;
+    @media (max-width: 430.5px) {
+        .ant-item-ex-image {
+            width: 76px;
+            height: 70px;
+            &:after {
+                width: 76px !important;
+            }
+        }
+    }
+    @media (max-width: 360.5px) {
+        flex-direction: column;
+        align-items: center;
+        .ant-text-week {
+            margin-top: 2rem;
+            text-align: center;
+        }
+        .ant-text-desc {
+            text-align: center;
+        }
+    }
 `;
 
 const StyledFilledButton = styled(FilledButton)`
@@ -471,224 +499,278 @@ const StyledFilledButton = styled(FilledButton)`
 const Program = () => {
     const [weekNumber, setWeekNumber] = useState(0);
     const [dayNumberActive, setDayNumberActive] = useState(null);
-    const history = useHistory();
+    const [isVisibleExBlock, setIsVisibleExBlock] = useState(false);
+    const [currentExBlockData, setCurrentExBlockData] = useState({});
+    const [lastScroll, setLastScroll] = useState(0);
+    // const history = useHistory();
+
+    useEffect(() => {
+        if (!isVisibleExBlock) {
+            window.scrollTo({
+                top: lastScroll,
+                behavior: 'auto',
+            });
+        }
+    }, [isVisibleExBlock]);
 
     return (
         <AuthWrapper>
-            <ContainerFlex>
-                <HeaderMenu headerText="Программа" />
-                <StyledMainTabs tabPosition="top">
-                    {timeTable.map((item, index) => (
-                        <StyledTabPaneLeft
-                            key={item.id}
-                            tab={item.week}
-                            bgImage={item.week}
-                        >
-                            <Tabs tabPosition="left">
-                                {item.days.map((i, index) => (
-                                    <TabPane
-                                        key={i.id}
-                                        tab={
-                                            <div
-                                                className="left-tab-items"
-                                                style={{
-                                                    background: `url(images/program_day_${i.id}.png)`,
-                                                }}
+            {!isVisibleExBlock ? (
+                <ContainerFlex>
+                    <HeaderMenu headerText="Программа" />
+                    <MainContainer>
+                        <StyledMainTabs tabPosition="top">
+                            {timeTable.map((item, index) => (
+                                <StyledTabPaneLeft
+                                    key={item.id}
+                                    tab={item.week}
+                                    bgImage={item.week}
+                                >
+                                    <Tabs tabPosition="left">
+                                        {item.days.map((i, index) => (
+                                            <TabPane
+                                                key={i.id}
+                                                tab={
+                                                    <div
+                                                        className="left-tab-items"
+                                                        style={{
+                                                            background: `url(images/program_day_${i.id}.png)`,
+                                                            backgroundSize:
+                                                                'cover',
+                                                        }}
+                                                    >
+                                                        {i.name}
+                                                    </div>
+                                                }
                                             >
-                                                {i.name}
-                                            </div>
+                                                <DataWrapper>
+                                                    <StyledRow>
+                                                        <Col xs={24} lg={12}>
+                                                            <StyledImage
+                                                                style={{
+                                                                    background: `url(images/program_day_${i.id}.png)`,
+                                                                    backgroundSize:
+                                                                        'cover',
+                                                                }}
+                                                            />
+                                                        </Col>
+                                                        <Col xs={24} lg={12}>
+                                                            <StyledH1>
+                                                                {i.name}
+                                                            </StyledH1>
+                                                            <TextDesc>
+                                                                {i.desc}
+                                                            </TextDesc>
+                                                            <TextTitle>
+                                                                МФР:
+                                                            </TextTitle>
+                                                            <TextDesc>
+                                                                {i.mfr}
+                                                            </TextDesc>
+                                                            <TextTitle>
+                                                                Спец разминка:
+                                                            </TextTitle>
+                                                            <TextDesc>
+                                                                {i.specWarmUp}
+                                                            </TextDesc>
+                                                            <TextTitle>
+                                                                Техническая
+                                                                часть:
+                                                            </TextTitle>
+                                                            <TextDesc>
+                                                                {i.tech}
+                                                            </TextDesc>
+                                                            <TextTitle>
+                                                                Кондиционная
+                                                                часть:
+                                                            </TextTitle>
+                                                            <TextDesc>
+                                                                {i.condPart}
+                                                            </TextDesc>
+                                                        </Col>
+                                                    </StyledRow>
+                                                </DataWrapper>
+                                            </TabPane>
+                                        ))}
+                                    </Tabs>
+                                </StyledTabPaneLeft>
+                            ))}
+                        </StyledMainTabs>
+                        <StyledTabsMobile>
+                            <StyledCarouselMainMobile
+                                slidesToShow={3}
+                                dots={false}
+                                draggable={true}
+                                swipeToSlide={true}
+                                touchThreshold={50}
+                                focusOnSelect={true}
+                                responsive={[
+                                    {
+                                        breakpoint: 400,
+                                        settings: {
+                                            slidesToShow: 2,
+                                        },
+                                    },
+                                ]}
+                                beforeChange={(current, next) => {
+                                    if (current !== next) {
+                                        setWeekNumber(next);
+                                        setDayNumberActive(null);
+                                    }
+                                }}
+                            >
+                                {timeTable.map((item, index) => (
+                                    <div key={item.id}>
+                                        <div className="carousel-main-item">
+                                            {item.week}
+                                        </div>
+                                    </div>
+                                ))}
+                            </StyledCarouselMainMobile>
+                            <CollapseMobile
+                                accordion
+                                activeKey={[dayNumberActive]}
+                                onChange={(key) => {
+                                    key !== undefined
+                                        ? setDayNumberActive(key.toString())
+                                        : setDayNumberActive(null);
+                                }}
+                            >
+                                {timeTable[weekNumber].days.map((i, index) => (
+                                    <Panel
+                                        key={i.id.toString()}
+                                        showArrow={true}
+                                        collapsible={i.finished && 'disabled'}
+                                        className={
+                                            i.isToday && 'ant-panel-today'
                                         }
-                                    >
-                                        <DataWrapper>
-                                            <StyledRow>
-                                                <Col xs={24} lg={12}>
-                                                    <StyledImage
+                                        extra={
+                                            <StyledRowMobile>
+                                                <Col xs={10}>
+                                                    <StyledImageMobile
+                                                        className="ant-item-image"
                                                         style={{
                                                             background: `url(images/program_day_${i.id}.png)`,
                                                         }}
                                                     />
                                                 </Col>
-                                                <Col xs={24} lg={12}>
-                                                    <StyledH1>
-                                                        {i.name}
-                                                    </StyledH1>
-                                                    <TextDesc>
-                                                        {i.desc}
-                                                    </TextDesc>
-                                                    <TextTitle>МФР:</TextTitle>
-                                                    <TextDesc>{i.mfr}</TextDesc>
-                                                    <TextTitle>
-                                                        Спец разминка:
-                                                    </TextTitle>
-                                                    <TextDesc>
-                                                        {i.specWarmUp}
-                                                    </TextDesc>
-                                                    <TextTitle>
-                                                        Техническая часть:
-                                                    </TextTitle>
-                                                    <TextDesc>
-                                                        {i.tech}
-                                                    </TextDesc>
-                                                    <TextTitle>
-                                                        Кондиционная часть:
-                                                    </TextTitle>
-                                                    <TextDesc>
-                                                        {i.condPart}
-                                                    </TextDesc>
+                                                <Col xs={14}>
+                                                    <Row>
+                                                        <Col xs={24}>
+                                                            <TextWeekMobile>
+                                                                {i.name}
+                                                            </TextWeekMobile>
+                                                        </Col>
+                                                        <Col xs={24}>
+                                                            <TextDescMobile>
+                                                                {i.desc}
+                                                            </TextDescMobile>
+                                                        </Col>
+                                                    </Row>
                                                 </Col>
-                                            </StyledRow>
-                                        </DataWrapper>
-                                    </TabPane>
-                                ))}
-                            </Tabs>
-                        </StyledTabPaneLeft>
-                    ))}
-                </StyledMainTabs>
-                <StyledTabsMobile>
-                    <StyledCarouselMainMobile
-                        slidesToShow={3}
-                        dots={false}
-                        draggable={true}
-                        swipeToSlide={true}
-                        touchThreshold={50}
-                        focusOnSelect={true}
-                        responsive={[
-                            {
-                                breakpoint: 400,
-                                settings: {
-                                    slidesToShow: 2,
-                                },
-                            },
-                        ]}
-                        beforeChange={(current, next) => {
-                            if (current !== next) {
-                                setWeekNumber(next);
-                                setDayNumberActive(null);
-                            }
-                        }}
-                    >
-                        {timeTable.map((item, index) => (
-                            <div key={item.id}>
-                                <div className="carousel-main-item">
-                                    {item.week}
-                                </div>
-                            </div>
-                        ))}
-                    </StyledCarouselMainMobile>
-                    <CollapseMobile
-                        accordion
-                        activeKey={[dayNumberActive]}
-                        onChange={(key) => {
-                            key !== undefined
-                                ? setDayNumberActive(key.toString())
-                                : setDayNumberActive(null);
-                        }}
-                    >
-                        {timeTable[weekNumber].days.map((i, index) => (
-                            <Panel
-                                key={i.id.toString()}
-                                showArrow={true}
-                                collapsible={i.finished && 'disabled'}
-                                className={i.isToday && 'ant-panel-today'}
-                                extra={
-                                    <StyledRowMobile>
-                                        <Col xs={10}>
-                                            <StyledImageMobile
-                                                className="ant-item-image"
-                                                style={{
-                                                    background: `url(images/program_day_${i.id}.png)`,
-                                                }}
-                                            />
-                                        </Col>
-                                        <Col xs={14}>
-                                            <Row>
-                                                <Col xs={24}>
-                                                    <TextWeekMobile>
-                                                        {i.name}
-                                                    </TextWeekMobile>
-                                                </Col>
-                                                <Col xs={24}>
-                                                    <TextDescMobile>
-                                                        {i.desc}
-                                                    </TextDescMobile>
-                                                </Col>
-                                            </Row>
-                                        </Col>
-                                    </StyledRowMobile>
-                                }
-                            >
-                                <CollapseExMobile
-                                    accordion
-                                    collapsible="disabled"
-                                >
-                                    {i.blocks.map((j, index) => (
-                                        <Panel
-                                            key={j.id.toString()}
-                                            className={
-                                                (j.finished && 'disabled-ex') ||
-                                                (j.current && 'ant-current')
-                                            }
-                                            extra={
-                                                <StyledRowExMobile
-                                                    onClick={() => {
-                                                        history.push({
-                                                            pathname:
-                                                                '/program/' +
-                                                                weekNumber +
-                                                                '/' +
-                                                                i.id +
-                                                                '/' +
-                                                                j.id,
-                                                        });
-                                                    }}
-                                                >
-                                                    <Col xs={10}>
-                                                        <StyledImageMobile
-                                                            className="ant-item-ex-image"
-                                                            style={{
-                                                                background: `url(images/program_day_${j.id}.png)`,
+                                            </StyledRowMobile>
+                                        }
+                                    >
+                                        <CollapseExMobile
+                                            accordion
+                                            collapsible="disabled"
+                                        >
+                                            {i.blocks.map((j, index) => (
+                                                <Panel
+                                                    key={j.id.toString()}
+                                                    className={
+                                                        (j.finished &&
+                                                            'disabled-ex') ||
+                                                        (j.current &&
+                                                            'ant-current')
+                                                    }
+                                                    extra={
+                                                        <StyledRowExMobile
+                                                            onClick={() => {
+                                                                setCurrentExBlockData(
+                                                                    {
+                                                                        currentBlock:
+                                                                            j.current,
+                                                                        name: j.name,
+                                                                        desc: j.desc,
+                                                                        exercises:
+                                                                            j.exercises,
+                                                                    },
+                                                                );
+                                                                setIsVisibleExBlock(
+                                                                    true,
+                                                                );
+                                                                setLastScroll(
+                                                                    window.scrollY,
+                                                                );
                                                             }}
-                                                        />
-                                                    </Col>
-                                                    <Col xs={14}>
-                                                        <Row>
-                                                            <Col xs={24}>
-                                                                <TextWeekMobile>
-                                                                    {j.name}
-                                                                </TextWeekMobile>
+                                                        >
+                                                            <Col xs={10}>
+                                                                <StyledImageMobile
+                                                                    className="ant-item-ex-image"
+                                                                    style={{
+                                                                        background: `url(images/program_day_${j.id}.png)`,
+                                                                    }}
+                                                                />
                                                             </Col>
-                                                            <Col xs={24}>
-                                                                <TextDescMobile>
-                                                                    {j.exercises.map(
-                                                                        (
-                                                                            k,
-                                                                            index,
-                                                                        ) =>
-                                                                            (index
-                                                                                ? ', '
-                                                                                : '') +
-                                                                            k.name,
-                                                                    )}
-                                                                </TextDescMobile>
+                                                            <Col xs={14}>
+                                                                <Row>
+                                                                    <Col
+                                                                        xs={24}
+                                                                    >
+                                                                        <TextWeekMobile className="ant-text-week">
+                                                                            {
+                                                                                j.name
+                                                                            }
+                                                                        </TextWeekMobile>
+                                                                    </Col>
+                                                                    <Col
+                                                                        xs={24}
+                                                                    >
+                                                                        <TextDescMobile className="ant-text-desc">
+                                                                            {j.exercises.map(
+                                                                                (
+                                                                                    k,
+                                                                                    index,
+                                                                                ) =>
+                                                                                    (index
+                                                                                        ? ', '
+                                                                                        : '') +
+                                                                                    k.name,
+                                                                            )}
+                                                                        </TextDescMobile>
+                                                                    </Col>
+                                                                </Row>
                                                             </Col>
-                                                        </Row>
-                                                    </Col>
-                                                </StyledRowExMobile>
-                                            }
-                                        ></Panel>
-                                    ))}
-                                </CollapseExMobile>
-                                {i.isToday && (
-                                    <StyledFilledButton>
-                                        Завершить тренировку
-                                    </StyledFilledButton>
-                                )}
-                            </Panel>
-                        ))}
-                    </CollapseMobile>
-                </StyledTabsMobile>
-                <BottomText>2022 Brutto team</BottomText>
-            </ContainerFlex>
+                                                        </StyledRowExMobile>
+                                                    }
+                                                ></Panel>
+                                            ))}
+                                        </CollapseExMobile>
+                                        {i.isToday && (
+                                            <StyledFilledButton>
+                                                Завершить тренировку
+                                            </StyledFilledButton>
+                                        )}
+                                    </Panel>
+                                ))}
+                            </CollapseMobile>
+                        </StyledTabsMobile>
+                    </MainContainer>
+
+                    <BottomText>2022 Brutto team</BottomText>
+                </ContainerFlex>
+            ) : (
+                <ContainerFlex>
+                    <HeaderMenu headerText="Программа" />
+                    <CurrentExBlock
+                        setIsVisibleExBlock={(e) => {
+                            setIsVisibleExBlock(e);
+                        }}
+                        currentExBlockData={currentExBlockData}
+                    />
+                </ContainerFlex>
+            )}
         </AuthWrapper>
     );
 };

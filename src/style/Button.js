@@ -16,6 +16,7 @@ const ButtonStyled = styled(Button)`
     font-weight: 700;
     font-size: 20px;
     line-height: 120%;
+    white-space: pre-wrap;
     &:hover {
         color: #363636;
     }

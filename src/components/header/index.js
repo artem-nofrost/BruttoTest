@@ -42,6 +42,12 @@ const MenuBar = styled.nav`
     }
 `;
 
+const StyledRow = styled(Row)`
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+`;
+
 const StyledCol = styled(Col)`
     @media (max-width: 767.5px) {
         text-align: right;
@@ -206,7 +212,7 @@ const HeaderMenu = ({ headerText }) => {
     return (
         <>
             <MenuBar>
-                <Row>
+                <StyledRow>
                     <StyledCol
                         xs={{ span: 9, order: 2 }}
                         md={{ span: 5, order: 1 }}
@@ -249,7 +255,7 @@ const HeaderMenu = ({ headerText }) => {
                             </StyledDrawer>
                         </StyledFlex>
                     </Col>
-                </Row>
+                </StyledRow>
                 <StyledH1>{headerText}</StyledH1>
             </MenuBar>
         </>
