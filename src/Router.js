@@ -6,6 +6,7 @@ import Login from './components/login';
 import Registration from './components/registration';
 import Program from './components/program';
 import PrivateRoute from './route/PrivateRouter';
+import Exercises from './components/exercises';
 
 export default function Router() {
     const isAuth =
@@ -52,6 +53,9 @@ export default function Router() {
                 </Route>
                 <PrivateRoute exact path="/program">
                     <Program />
+                </PrivateRoute>
+                <PrivateRoute path="/program/:week/:date/:block">
+                    <Exercises />
                 </PrivateRoute>
                 <Route path="*">
                     <Redirect to="/" />

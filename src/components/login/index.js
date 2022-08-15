@@ -17,7 +17,7 @@ import { fade_in } from '../../style/animations';
 const AuthWrapper = styled.div`
     width: 100%;
     min-height: inherit;
-    background-image: url(images/bg-auth.png);
+    background-image: url(/images/bg-auth.png);
     background-size: cover;
     background-position: center;
     @media (max-width: 576.5px) {

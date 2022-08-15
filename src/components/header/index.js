@@ -33,7 +33,7 @@ const MenuBar = styled.nav`
     flex-direction: column;
     padding-left: 3rem;
     padding-right: 3rem;
-    background-image: url(images/header-background.png);
+    background-image: url(/images/header-background.png);
     background-size: cover;
     background-position: center;
     @media (max-width: 576.5px) {

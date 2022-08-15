@@ -24,7 +24,7 @@ const AuthWrapper = styled.div`
     width: 100%;
     min-height: inherit;
     background-image: ${(props) =>
-        props.part1 ? 'url(images/bg-auth.png);' : 'none'};
+        props.part1 ? 'url(/images/bg-auth.png);' : 'none'};
     background-size: cover;
     background-position: center;
     @media (max-width: 576.5px) {

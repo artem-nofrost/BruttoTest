@@ -8,7 +8,7 @@ import Text from '../../style/Text';
 const TechWorkWrapper = styled.div`
     width: 100%;
     height: 100vh;
-    background-image: url(images/bg-techwork.png);
+    background-image: url(/images/bg-techwork.png);
     background-size: cover;
     background-position: center;
 `;
