@@ -38,6 +38,10 @@ const StyledImage = styled.div`
     width: 109px;
     height: 106px;
     border-radius: 8px;
+    @media (max-width: 650.5px) {
+        width: 86px;
+        height: 80px;
+    }
 `;
 
 const TextWeek = styled(Text)`

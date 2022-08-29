@@ -10,6 +10,7 @@ import { colors } from '../../style/colors';
 import Flex from '../../style/Flex';
 import Text from '../../style/Text';
 import HeaderMenu from '../header';
+import ModalVideo from './ModalVideo';
 
 const { Panel } = Collapse;
 
@@ -126,7 +127,6 @@ const WrapperVideo = styled.div`
 const VideoPreview = styled.div`
     width: 109px;
     height: 64px;
-    background: url(/images/video_1.svg);
     border-radius: 8px;
     &:after {
         content: url(/images/video-play.svg);
@@ -195,6 +195,8 @@ const Exercises = () => {
         currentBlock: false,
     });
 
+    const [isOpenVideo, setIsOpenVideo] = useState(false);
+
     const myRef = useRef();
 
     const history = useHistory();
@@ -212,6 +214,10 @@ const Exercises = () => {
         <AuthWrapper>
             <ContainerFlex>
                 <HeaderMenu headerText="Программа" />
+                <ModalVideo
+                    isOpen={isOpenVideo}
+                    setIsOpen={(e) => setIsOpenVideo(e)}
+                />
                 <StyledRowContainer>
                     <ColWrapper ref={myRef} xs={24}>
                         <Arrow
@@ -239,10 +245,23 @@ const Exercises = () => {
                                 <StyledCollapse defaultActiveKey={['1']}>
                                     <Panel header="Упражнения в блоке" key="1">
                                         {data.exercises.map((i, index) => (
-                                            <WrapperVideo key={index}>
+                                            <WrapperVideo
+                                                key={index}
+                                                onClick={(e) => {
+                                                    setIsOpenVideo(true);
+                                                }}
+                                            >
                                                 <Row>
                                                     <ColWrapperVideo>
-                                                        <VideoPreview />
+                                                        <VideoPreview
+                                                            style={{
+                                                                background:
+                                                                    'url(/images/video_' +
+                                                                    (index +
+                                                                        1) +
+                                                                    '.svg)',
+                                                            }}
+                                                        />
                                                         <StyledRowWidth>
                                                             <Col xs={15}>
                                                                 <StyledTextDesc>

@@ -174,6 +174,9 @@ const CollapseEx = styled(Collapse)`
                 font-weight: 700;
                 font-size: 17px;
                 line-height: 130%;
+                @media (max-width: 650.5px) {
+                    width: 86px;
+                }
             }
         }
         p {

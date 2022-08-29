@@ -253,8 +253,9 @@ const CollapseExMobile = styled(CollapseMobile)`
 `;
 
 const StyledFilledButton = styled(FilledButton)`
-    padding: 2rem 1rem;
+    height: fit-content;
     max-width: 100%;
+    padding: 1rem 2rem;
     margin: 1.5rem auto 0 auto !important;
 `;
 
