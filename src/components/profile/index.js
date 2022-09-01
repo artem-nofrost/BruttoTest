@@ -23,7 +23,6 @@ const ContainerFlex = styled(Flex)`
 `;
 
 const StyledRow = styled(Row)`
-    // margin-top: -2.5rem;
     width: 100%;
     justify-content: center;
     align-items: center;

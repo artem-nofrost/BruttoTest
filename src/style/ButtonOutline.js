@@ -8,7 +8,7 @@ const ButtonStyled = styled(Button)`
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 12px 135px;
+    padding: 12px 125px;
     color: ${colors.white};
     background: ${colors.transparent};
     border-radius: 8px;
